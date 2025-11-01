@@ -1,0 +1,337 @@
+/* Variables principales - aquí están todos los colores y medidas importantes */
+:root {
+    /* Colores básicos */
+    --color-principal: #007bff;
+    --color-fondo: #f0f0f0;
+    --color-blanco: white;
+    --color-negro: #333;
+    --color-gris: #666;
+    --color-gris-claro: #ddd;
+    --color-error: #dc3545;
+    --color-exito: #28a745;
+    
+    /* Medidas básicas */
+    --radio: 10px;
+    --espaciado: 20px;
+    --padding-boton: 12px;
+    --ancho-maximo: 500px;
+}
+
+/* Tema oscuro - solo cambiamos los colores necesarios */
+body.tema-oscuro {
+    --color-fondo: #2c2c2c;
+    --color-blanco: #404040;
+    --color-negro: white;
+    --color-gris: #ccc;
+    --color-gris-claro: #666;
+}
+
+/* Reseteo básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: var(--color-fondo);
+    color: var(--color-negro);
+    min-height: 100vh;
+    transition: all 0.3s ease;
+}
+
+/* Contenedor que centra todo */
+.contenedor {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--espaciado);
+}
+
+/* Sistema de pantallas */
+.pantalla {
+    display: none;
+    width: 100%;
+    max-width: var(--ancho-maximo);
+    text-align: center;
+}
+
+.pantalla.activa {
+    display: block;
+}
+
+/* Tarjetas */
+.tarjeta-formulario, .tarjeta-panel {
+    background: var(--color-blanco);
+    color: var(--color-negro);
+    border-radius: var(--radio);
+    padding: 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.tarjeta-panel {
+    background: #343a40;
+    color: white;
+}
+
+body.tema-oscuro .tarjeta-panel {
+    background: #1a1a1a;
+}
+
+/* Campos de formulario */
+.grupo-campo {
+    margin-bottom: var(--espaciado);
+    text-align: left;
+}
+
+.grupo-campo input {
+    width: 100%;
+    padding: var(--padding-boton) 15px;
+    border: 1px solid var(--color-gris-claro);
+    border-radius: 5px;
+    background: var(--color-blanco);
+    color: var(--color-negro);
+    transition: all 0.3s ease;
+}
+
+.grupo-campo input:focus {
+    outline: none;
+    border-color: var(--color-principal);
+}
+
+.grupo-campo input.error {
+    border-color: var(--color-error);
+}
+
+/* Contenedor de contraseña */
+.contenedor-contraseña {
+    position: relative;
+}
+
+.mostrar-contraseña {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-gris);
+}
+
+/* Mensajes de error */
+.mensaje-error {
+    display: none;
+    color: var(--color-error);
+    font-size: 12px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+/* Checkbox personalizado */
+.grupo-checkbox {
+    display: flex;
+    align-items: center;
+    margin: var(--espaciado) 0;
+}
+
+.etiqueta-checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.etiqueta-checkbox input[type="checkbox"] {
+    display: none;
+}
+
+.marca-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--color-gris-claro);
+    border-radius: 3px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: transparent;
+    transition: all 0.3s ease;
+}
+
+.etiqueta-checkbox input[type="checkbox"]:checked + .marca-checkbox {
+    background: var(--color-principal);
+    border-color: var(--color-principal);
+    color: white;
+}
+
+/* Botones */
+.boton-principal {
+    width: 100%;
+    padding: var(--padding-boton);
+    background: #e9ecef;
+    color: var(--color-negro);
+    border: 1px solid var(--color-gris-claro);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.boton-principal:hover {
+    background: #dee2e6;
+}
+
+.boton-principal:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+body.tema-oscuro .boton-principal {
+    background: #555;
+    color: white;
+    border-color: #666;
+}
+
+body.tema-oscuro .boton-principal:hover {
+    background: #666;
+}
+
+.boton-secundario {
+    padding: 10px 20px;
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
+.boton-secundario:hover {
+    background: #545b62;
+}
+
+/* Enlaces */
+.enlace-formulario {
+    margin-top: var(--espaciado);
+}
+
+.enlace-formulario a {
+    color: var(--color-principal);
+    text-decoration: none;
+}
+
+.enlace-formulario a:hover {
+    text-decoration: underline;
+}
+
+/* Panel de botones */
+.botones-panel {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Banner de cookies */
+.aviso-cookies {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #f8f9fa;
+    border-top: 1px solid var(--color-gris-claro);
+    color: var(--color-negro);
+    padding: 15px;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+}
+
+.aviso-cookies.oculto {
+    transform: translateY(100%);
+}
+
+body.tema-oscuro .aviso-cookies {
+    background: #343a40;
+    border-top-color: #495057;
+}
+
+.contenido-cookies {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    max-width: 800px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.boton-cookies {
+    padding: 8px 15px;
+    background: var(--color-principal);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.boton-cookies:hover {
+    background: #0056b3;
+}
+
+/* Mensajes temporales */
+.mensaje {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 5px;
+    color: white;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 300px;
+}
+
+.mensaje.oculto {
+    display: none;
+}
+
+.mensaje.exito {
+    background: var(--color-exito);
+}
+
+.mensaje.error {
+    background: var(--color-error);
+}
+
+.cerrar-mensaje {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* Responsivo para móviles */
+@media (max-width: 480px) {
+    .contenedor {
+        padding: 10px;
+    }
+    
+    .tarjeta-formulario, .tarjeta-panel {
+        padding: 20px;
+    }
+    
+    .botones-panel {
+        flex-direction: column;
+    }
+    
+    .contenido-cookies {
+        flex-direction: column;
+        text-align: center;
+    }
+}

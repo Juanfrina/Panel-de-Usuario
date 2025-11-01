@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <script type="module" src="js/main.js" defer></script>
+    <title>Panel de Usuario</title>
+</head>
+<body>
+    <!-- Aviso de cookies que aparece abajo -->
+    <div id="aviso-cookies" class="aviso-cookies">
+        <div class="contenido-cookies">
+            <span>Usamos cookies para recordar tus preferencias. ¿Aceptas?</span>
+            <button id="aceptar-cookies" class="boton-cookies">Aceptar</button>
+        </div>
+    </div>
+
+    <div class="contenedor">
+        <main>
+            <!-- PANTALLA 1: Pantalla de iniciar sesión -->
+            <section id="pantalla-login" class="pantalla activa">
+                <div class="tarjeta-formulario">
+                    <h2>Iniciar sesión</h2>
+                    <form id="formulario-login">
+                        <div class="grupo-campo">
+                            <input type="text" id="usuario-login" placeholder="Usuario" required>
+                            <span class="mensaje-error" id="error-usuario-login"></span>
+                        </div>
+                        
+                        <div class="grupo-campo">
+                            <div class="contenedor-contraseña">
+                                <input type="password" id="contraseña-login" placeholder="Contraseña" required>
+                                <button type="button" class="mostrar-contraseña" id="mostrar-contraseña-login">
+                                    👁️
+                                </button>
+                            </div>
+                            <span class="mensaje-error" id="error-contraseña-login"></span>
+                        </div>
+                        
+                        <button type="submit" class="boton-principal">Entrar</button>
+                    </form>
+                    <p class="enlace-formulario">
+                        <a href="#" id="ir-a-registro">Registrarse</a>
+                    </p>
+                </div>
+            </section>
+
+            <!-- PANTALLA 2: Pantalla de registro -->
+            <section id="pantalla-registro" class="pantalla">
+                <div class="tarjeta-formulario">
+                    <h2>Registro</h2>
+                    <form id="formulario-registro">
+                        <!-- Campo para el nombre de usuario -->
+                        <div class="grupo-campo">
+                            <input type="text" id="usuario-registro" placeholder="Nombre de usuario" required>
+                            <span class="mensaje-error" id="error-usuario-registro"></span>
+                        </div>
+                        
+                        <!-- Campo para la contraseña con botón para mostrarla -->
+                        <div class="grupo-campo">
+                            <div class="contenedor-contraseña">
+                                <input type="password" id="contraseña-registro" placeholder="Contraseña" required>
+                                <button type="button" class="mostrar-contraseña" id="mostrar-contraseña-registro">
+                                    👁️
+                                </button>
+                            </div>
+                            <span class="mensaje-error" id="error-contraseña-registro"></span>
+                        </div>
+                        
+                        <!-- Campo para el teléfono -->
+                        <div class="grupo-campo">
+                            <input type="tel" id="telefono-registro" placeholder="Teléfono" required>
+                            <span class="mensaje-error" id="error-telefono-registro"></span>
+                        </div>
+                        
+                        <!-- Campo para el código postal -->
+                        <div class="grupo-campo">
+                            <input type="text" id="codigo-postal-registro" placeholder="Código postal" required>
+                            <span class="mensaje-error" id="error-codigo-postal-registro"></span>
+                        </div>
+                        
+                        <!-- Casilla para marcar si es mayor de edad -->
+                        <div class="grupo-campo grupo-checkbox">
+                            <label class="etiqueta-checkbox">
+                                <input type="checkbox" id="mayor-edad-registro">
+                                <span class="marca-checkbox">✓</span>
+                                Soy mayor de edad
+                            </label>
+                        </div>
+                        
+                        <!-- Campo de edad (solo aparece si marca la casilla anterior) -->
+                        <div class="grupo-campo" id="grupo-edad" style="display: none;">
+                            <input type="number" id="edad-registro" placeholder="Edad" min="18" max="99">
+                            <span class="mensaje-error" id="error-edad-registro"></span>
+                        </div>
+                        
+                        <button type="submit" class="boton-principal" id="boton-crear-cuenta" disabled>Crear cuenta</button>
+                    </form>
+                    <p class="enlace-formulario">
+                        <a href="#" id="ir-a-login">¿Ya tienes cuenta? Inicia sesión</a>
+                    </p>
+                </div>
+            </section>
+
+            <!-- PANTALLA 3: Panel del usuario cuando ya ha iniciado sesión -->
+            <section id="panel-usuario" class="pantalla">
+                <div class="tarjeta-panel">
+                    <h2 id="mensaje-bienvenida">Bienvenido, usuario</h2>
+                    <div class="botones-panel">
+                        <button id="cambiar-tema" class="boton-secundario">Cambiar tema</button>
+                        <button id="cerrar-sesion" class="boton-secundario">Cerrar sesión</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Mensajes que aparecen cuando algo sale bien -->
+    <div id="mensaje-exito" class="mensaje exito oculto">
+        <span class="texto-mensaje"></span>
+        <button class="cerrar-mensaje">&times;</button>
+    </div>
+
+    <!-- Mensajes que aparecen cuando algo sale mal -->
+    <div id="mensaje-error-global" class="mensaje error oculto">
+        <span class="texto-mensaje"></span>
+        <button class="cerrar-mensaje">&times;</button>
+    </div>
+</body>
+</html>
