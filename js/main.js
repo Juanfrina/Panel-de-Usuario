@@ -3,6 +3,9 @@
 // Importar las funciones que necesitamos
 import { guardarConsentimientoCookies, yaSeAceptaronCookies } from './utils/cookies.js';
 import { validarCampoAlSalir } from './utils/validation.js';
+import { inicializarRegistro } from './modules/register.js';
+import { inicializarLogin } from './modules/login.js';
+import { inicializarPanelUsuario, verificarSesionExistente, aplicarTemaGuardado } from './modules/userPanel.js';
 
 // Función para mostrar solo una pantalla y ocultar las demás
 function mostrarPantalla(nombrePantalla) {
@@ -63,39 +66,28 @@ function configurarCampoEdad() {
                 grupoEdad.style.display = 'block';
             } else {
                 grupoEdad.style.display = 'none';
-                // Limpiar el campo de edad si se oculta
                 const campoEdad = document.getElementById('edad-registro');
                 if (campoEdad) {
                     campoEdad.value = '';
                 }
             }
+            verificarFormularioCompleto();
         });
     }
 }
 
 // Función para verificar si todos los campos son válidos
 function verificarFormularioCompleto() {
-    const campos = [
-        'usuario-registro',
-        'contraseña-registro', 
-        'telefono-registro',
-        'codigo-postal-registro'
-    ];
-    
+    const campos = ['usuario-registro', 'contraseña-registro', 'telefono-registro', 'codigo-postal-registro'];
     let todosValidos = true;
     
-    // Verificar cada campo
     campos.forEach(idCampo => {
         const campo = document.getElementById(idCampo);
-        if (campo && campo.classList.contains('error')) {
-            todosValidos = false;
-        }
-        if (campo && campo.value.trim() === '') {
+        if (campo && (campo.classList.contains('error') || campo.value.trim() === '')) {
             todosValidos = false;
         }
     });
     
-    // Verificar el campo edad si está visible
     const grupoEdad = document.getElementById('grupo-edad');
     if (grupoEdad && grupoEdad.style.display !== 'none') {
         const campoEdad = document.getElementById('edad-registro');
@@ -104,7 +96,6 @@ function verificarFormularioCompleto() {
         }
     }
     
-    // Habilitar o deshabilitar el botón
     const botonCrearCuenta = document.getElementById('boton-crear-cuenta');
     if (botonCrearCuenta) {
         botonCrearCuenta.disabled = !todosValidos;
@@ -115,14 +106,12 @@ function verificarFormularioCompleto() {
 function configurarBannerCookies() {
     const bannerCookies = document.getElementById('aviso-cookies');
     
-    // Si ya se aceptaron antes, no mostrar el banner
     if (yaSeAceptaronCookies()) {
         bannerCookies.classList.add('oculto');
     } else {
         bannerCookies.classList.remove('oculto');
     }
     
-    // Cuando hace clic en aceptar
     const botonAceptar = document.getElementById('aceptar-cookies');
     if (botonAceptar) {
         botonAceptar.addEventListener('click', function() {
@@ -134,51 +123,27 @@ function configurarBannerCookies() {
 
 // Función para configurar la validación del formulario de registro
 function configurarValidacionRegistro() {
-    // Validar usuario cuando sale del campo
-    const campoUsuario = document.getElementById('usuario-registro');
-    if (campoUsuario) {
-        campoUsuario.addEventListener('blur', function() {
-            validarCampoAlSalir('usuario-registro', this.value, 'usuario');
-            verificarFormularioCompleto();
-        });
-        campoUsuario.addEventListener('input', verificarFormularioCompleto);
-    }
+    const configurarValidacionCampo = (idCampo, tipoValidacion) => {
+        const campo = document.getElementById(idCampo);
+        if (campo) {
+            campo.addEventListener('blur', function() {
+                validarCampoAlSalir(idCampo, this.value, tipoValidacion);
+                verificarFormularioCompleto();
+            });
+            campo.addEventListener('input', verificarFormularioCompleto);
+        }
+    };
     
-    // Validar contraseña cuando sale del campo
-    const campoContraseña = document.getElementById('contraseña-registro');
-    if (campoContraseña) {
-        campoContraseña.addEventListener('blur', function() {
-            validarCampoAlSalir('contraseña-registro', this.value, 'contraseña');
-            verificarFormularioCompleto();
-        });
-        campoContraseña.addEventListener('input', verificarFormularioCompleto);
-    }
+    configurarValidacionCampo('usuario-registro', 'usuario');
+    configurarValidacionCampo('contraseña-registro', 'contraseña');
+    configurarValidacionCampo('telefono-registro', 'telefono');
+    configurarValidacionCampo('codigo-postal-registro', 'codigo-postal');
     
-    // Validar teléfono cuando sale del campo
-    const campoTelefono = document.getElementById('telefono-registro');
-    if (campoTelefono) {
-        campoTelefono.addEventListener('blur', function() {
-            validarCampoAlSalir('telefono-registro', this.value, 'telefono');
-            verificarFormularioCompleto();
-        });
-        campoTelefono.addEventListener('input', verificarFormularioCompleto);
-    }
-    
-    // Validar código postal cuando sale del campo
-    const campoCodigoPostal = document.getElementById('codigo-postal-registro');
-    if (campoCodigoPostal) {
-        campoCodigoPostal.addEventListener('blur', function() {
-            validarCampoAlSalir('codigo-postal-registro', this.value, 'codigo-postal');
-            verificarFormularioCompleto();
-        });
-        campoCodigoPostal.addEventListener('input', verificarFormularioCompleto);
-    }
-    
-    // Validar edad cuando sale del campo (solo si está visible)
     const campoEdad = document.getElementById('edad-registro');
     if (campoEdad) {
         campoEdad.addEventListener('blur', function() {
-            if (this.style.display !== 'none' && this.value !== '') {
+            const grupoEdad = document.getElementById('grupo-edad');
+            if (grupoEdad && grupoEdad.style.display !== 'none' && this.value !== '') {
                 validarCampoAlSalir('edad-registro', this.value, 'edad');
             }
             verificarFormularioCompleto();
@@ -189,6 +154,12 @@ function configurarValidacionRegistro() {
 
 // Función que se ejecuta cuando se carga la página
 function inicializarApp() {
+    // Aplicar el tema guardado
+    aplicarTemaGuardado();
+    
+    // Verificar si hay una sesión activa
+    verificarSesionExistente();
+    
     // Configurar el banner de cookies
     configurarBannerCookies();
     
@@ -200,6 +171,11 @@ function inicializarApp() {
     
     // Configurar la validación del formulario
     configurarValidacionRegistro();
+    
+    // Inicializar todos los módulos
+    inicializarRegistro();
+    inicializarLogin();
+    inicializarPanelUsuario();
     
     // Navegación entre pantallas
     const botonIrARegistro = document.getElementById('ir-a-registro');
